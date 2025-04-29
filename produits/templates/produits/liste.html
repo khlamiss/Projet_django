@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Ajouter les styles spécifiques à la table */
+    .table-hover tbody tr {
+        transition: all 0.25s ease;
+        border-radius: 12px;
+    }
+    
+    .table-hover tbody tr:hover {
+        transform: translateX(8px);
+        box-shadow: 8px 0 0 0 var(--secondary-color) inset;
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .symbol {
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(197, 167, 130, 0.1);
+    }
+
+    .symbol-label {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="container-fluid py-5">
+        <!-- En-tête -->
+        <div class="dashboard-header glass-card mb-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-3" style="color: var(--primary-color);">
+                        <i class="fas fa-cubes me-3" style="color: var(--secondary-color);"></i>
+                        Inventaire des Produits
+                    </h1>
+                    <p class="mb-0 text-muted">{% now "j F Y" %} • {{ produits|length }} produits répertoriés</p>
+                </div>
+                <a href="{% url 'ajouter_produit' %}" class="btn btn-primary px-4 py-3" style="background: var(--secondary-color); border: none;">
+                    <i class="fas fa-plus-circle me-2"></i>Nouveau Produit
+                </a>
+            </div>
+        </div>
+
+        <!-- Tableau -->
+        <div class="glass-card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 80px; color: var(--primary-color);">#</th>
+                            <th style="color: var(--primary-color);">Produit</th>
+                            <th style="color: var(--primary-color);">Prix</th>
+                            <th style="color: var(--primary-color);">Stock</th>
+                            <th style="width: 120px; color: var(--primary-color);">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produit in produits %}
+                        <tr>
+                            <td class="fw-bold text-muted">#{{ produit.id }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol me-3">
+                                        {% if produit.image %}
+                                        <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" class="symbol-label">
+                                        {% else %}
+                                        <div class="symbol-label d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-cosmetics fa-lg" style="color: var(--secondary-color);"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="color: var(--primary-color);">{{ produit.nom }}</div>
+                                        <div class="text-muted">{{ produit.description|truncatechars:40 }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fw-bold" style="color: var(--secondary-color);">{{ produit.prix }} TND</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="progress w-100" style="height: 8px; background: rgba(197, 167, 130, 0.1);">
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: {% widthratio produit.quantite 100 100 %}%; background: var(--secondary-color);">
+                                        </div>
+                                    </div>
+                                    <span class="badge ms-3" style="
+                                        background: {% if produit.quantite > 10 %}rgba(25, 135, 84, 0.1){% else %}rgba(255, 193, 7, 0.1){% endif %};
+                                        color: {% if produit.quantite > 10 %}#198754{% else %}#ffc107{% endif %};
+                                        border-radius: 20px;
+                                        padding: 4px 12px;
+                                    ">
+                                        {{ produit.quantite }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'modifier_produit' produit.id %}" 
+                                       class="btn btn-sm btn-outline-secondary px-3">
+                                        <i class="fas fa-edit" style="color: var(--text-color);"></i>
+                                    </a>
+                                    <a href="{% url 'supprimer_produit' produit.id %}" 
+                                       class="btn btn-sm btn-outline-danger px-3 delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

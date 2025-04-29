@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #2A2D3E;    /* Noir bleuté profond */
+        --secondary-color: #C5A782;  /* Doré satiné */
+        --accent-color: #E8C8D5;     /* Rose poudré */
+        --text-color: #4A4A4A;       /* Gris anthracite */
+    }
+
+    .login-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #F8F5F2 0%, rgba(255,255,255,1) 100%);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-container:before {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M27.6,-27.1C34.2,-17.5,37.1,-5.7,35.3,5.3C33.5,16.3,27,26.5,17.8,32.8C8.6,39.1,-3.3,41.5,-15.2,38.6C-27.2,35.7,-39.3,27.5,-43.2,16.3C-47.1,5.1,-42.8,-9.1,-35.6,-19.9C-28.4,-30.7,-18.3,-38.1,-6.6,-35.5C5.1,-32.8,10.2,-20.1,27.6,-27.1Z" fill="%23E8C8D5" /></svg>') no-repeat;
+        top: -50px;
+        left: -50px;
+        opacity: 0.15;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(25px);
+        border-radius: 28px;
+        box-shadow: 0 12px 40px 0 rgba(42,45,62,0.08);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .auth-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #34384E 100%);
+        padding: 2.8rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-header:after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: white;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.05));
+    }
+
+    .auth-icon {
+        font-size: 2.8rem;
+        color: var(--secondary-color);
+        background: rgba(197,167,130,0.1);
+        padding: 1.4rem;
+        border-radius: 50%;
+        margin-bottom: 1.8rem;
+        border: 2px solid rgba(197,167,130,0.2);
+    }
+    
+    .form-control-custom {
+        border: 2px solid #EDE8E3;
+        border-radius: 12px;
+        padding: 1.1rem 1.6rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-color);
+    }
+
+    .form-control-custom:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(197,167,130,0.1);
+    }
+
+    .btn-3d {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #34384E 100%);
+        padding: 1.2rem 2.2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-3d:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(42,45,62,0.15);
+    }
+
+    .alert-modern {
+        background: rgba(232,200,213,0.95);
+        border: 1px solid var(--accent-color);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        color: #6B4D5A;
+    }
+
+    .password-toggle {
+        color: var(--primary-color);
+        right: 20px;
+        transition: color 0.3s ease;
+    }
+
+    .geometric-pattern {
+        position: absolute;
+        opacity: 0.08;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .pattern-top-right {
+        top: -80px;
+        right: -80px;
+        width: 300px;
+        transform: rotate(45deg);
+    }
+
+    .pattern-bottom-left {
+        bottom: -80px;
+        left: -80px;
+        width: 300px;
+        transform: rotate(-45deg);
+    }
+</style>
+
+<div class="login-container">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNDkuOSw2LjVDNTUuOC0yLjEsNjkuNC0yLjEsNzUuMyw2LjVsMTMuNiwyMy42YzUuOSw4LjYsNS45LDE5LjgsMCwyOC40TDc1LjMsODIuMWMtNS45LDguNi0xOS41LDguNi0yNS40LDBMMzYuMyw1OC41Yy01LjktOC42LTUuOS0xOS44LDAtMjguNEw0OS45LDYuNXoiIGZpbGw9IiNFOEM4RDUiLz48L3N2Zz4=" class="geometric-pattern pattern-top-right">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNDkuOSw2LjVDNTUuOC0yLjEsNjkuNC0yLjEsNzUuMyw6LjVsMTMuNiwyMy42YzUuOSw4LjYsNS45LDE5LjgsMCwyOC40TDc1LjMsODIuMWMtNS45LDguNi0xOS41LDguNi0yNS40LDBMMzYuMyw1OC41Yy01LjktOC42LTUuOS0xOS44LDAtMjguNEw0OS45LDYuNXoiIGZpbGw9IiNFOEM4RDUiLz48L3N2Zz4=" class="geometric-pattern pattern-bottom-left">
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                {% if messages %}
+                <div class="alert alert-modern fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="glass-card">
+                    <div class="auth-header">
+                        <i class="fas fa-spa auth-icon"></i>
+                        <h2 class="text-white mb-1">Élégance Cosmétique</h2>
+                        <p class="text-secondary mb-0" style="color: var(--secondary-color) !important;">Accès privilégié</p>
+                    </div>
+                    
+                    <div class="card-body p-5">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-4 position-relative">
+                                <label class="form-label small mb-2" style="color: var(--primary-color);">Identifiant</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 pe-1">
+                                        <i class="fas fa-user" style="color: var(--secondary-color);"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control form-control-custom border-start-0" 
+                                           name="username" 
+                                           value="{{ username }}" 
+                                           required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 position-relative">
+                                <label class="form-label small mb-2" style="color: var(--primary-color);">Mot de passe</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 pe-1">
+                                        <i class="fas fa-lock" style="color: var(--secondary-color);"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control form-control-custom border-start-0" 
+                                           id="password" 
+                                           name="password" 
+                                           required>
+                                    <i class="fas fa-eye password-toggle" 
+                                       onclick="togglePasswordVisibility()"></i>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-3d text-white w-100 py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Accéder
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.querySelector('.password-toggle');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
+{% endblock %}
